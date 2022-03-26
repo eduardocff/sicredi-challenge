@@ -15,13 +15,16 @@ public class AssociateService {
 
     private static String REGEX_CPF = "\\d{11}";
 
-    public AssociateDTO addAssociate(AssociateDTO associateDTO) throws Exception {
-        var associate = (Associate) CastUtil.copyFields(associateDTO, Associate.class);
+    public AssociateDTO addAssociate(AssociateDTO associateDTO) {
+        if (associateDTO == null || associateDTO.getCpf() == null) {
+            throw new IllegalArgumentException();
+        }
 
         if (!checkValidCpf(associateDTO.getCpf())) {
-            //TODO Create excepction for this case
-            throw new Exception();
+            throw new IllegalArgumentException();
         }
+
+        var associate = (Associate) CastUtil.copyFields(associateDTO, Associate.class);
 
         return (AssociateDTO) CastUtil.copyFields(associateRepository.save(associate), AssociateDTO.class);
     }

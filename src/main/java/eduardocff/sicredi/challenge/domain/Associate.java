@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Entity
 public class Associate {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy= GenerationType.SEQUENCE)
     private Long id;
 
     @Column(unique = true)

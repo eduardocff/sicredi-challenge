@@ -20,6 +20,4 @@ public class SpringFoxConfig {
                 .build()
                 .pathMapping("/");
     }
-
-    //TODO add personal informations
 }
