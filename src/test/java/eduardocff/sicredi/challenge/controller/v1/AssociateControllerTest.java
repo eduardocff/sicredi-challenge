@@ -3,10 +3,12 @@ package eduardocff.sicredi.challenge.controller.v1;
 import com.google.gson.Gson;
 import eduardocff.sicredi.challenge.model.v1.AssociateDTO;
 import eduardocff.sicredi.challenge.service.AssociateService;
+import eduardocff.sicredi.challenge.utils.TestUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
@@ -30,6 +32,9 @@ public class AssociateControllerTest {
     @Mock
     private AssociateService associateService;
 
+    @Autowired
+    private TestUtil testUtil;
+
     @BeforeEach
     public void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(associateController)
@@ -39,8 +44,8 @@ public class AssociateControllerTest {
 
     @Test
     public void createNewAssociate_ok() throws Exception {
-        var associateDTO = getAssociateDTO(null);
-        var returnAssociateDTO = getAssociateDTO(1L);
+        var associateDTO = testUtil.getAssociateDTO(null);
+        var returnAssociateDTO = testUtil.getAssociateDTO(1L);
 
         Gson gson = new Gson();
 
@@ -78,17 +83,5 @@ public class AssociateControllerTest {
                         .content(gson.toJson(null))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
-    }
-
-    private AssociateDTO getAssociateDTO(Long id) {
-        var associateDTO = new AssociateDTO();
-        associateDTO.setCpf(97198042031L);
-        associateDTO.setName("Eduardo");
-
-        if(id != null) {
-            associateDTO.setId(id);
-        }
-
-        return associateDTO;
     }
 }
