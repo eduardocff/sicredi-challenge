@@ -1,8 +1,8 @@
 package eduardocff.sicredi.challenge.enums;
 
 public enum VoteStatus {
-    YES("Sim"),
-    NO("Não");
+    Sim("Sim"),
+    Nao("Não");
 
     private String status;
 
