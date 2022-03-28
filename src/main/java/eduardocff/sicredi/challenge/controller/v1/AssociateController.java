@@ -33,6 +33,7 @@ public class AssociateController {
             @ApiResponse(code = 500, message = "Internal server error to catch any possible database error.")
     })
     public ResponseEntity addNewAssociate(@RequestBody AssociateDTO associateDTO) {
+
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(associateService.addAssociate(associateDTO));
         } catch (IllegalArgumentException exception) {
@@ -45,5 +46,6 @@ public class AssociateController {
             log.error("Something went wrong: ", exception);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+
     }
 }
