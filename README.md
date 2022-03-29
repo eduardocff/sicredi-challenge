@@ -30,4 +30,4 @@ For project documentation I used ``Swagger``.
 - The voting has 3 statuses: Created, Opened and Closed.
 - Voting is 1 minute by default.
 - At the end of each voting, the final result is published in a queue.
-- For each vote of a Associate, the CPF is validated through the external url previously available.
+- For each vote of an Associate, the CPF is validated through the external url previously available.
