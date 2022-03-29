@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import eduardocff.sicredi.challenge.enums.VotingStatus;
 import eduardocff.sicredi.challenge.exception.EntityNotFoundException;
 import eduardocff.sicredi.challenge.model.v1.VotingDTO;
+import eduardocff.sicredi.challenge.model.v1.VotingInputDTO;
 import eduardocff.sicredi.challenge.service.VotingControlService;
 import eduardocff.sicredi.challenge.utils.TestUtil;
 import org.junit.jupiter.api.BeforeEach;
@@ -46,37 +47,37 @@ public class VotingControllerTest {
 
     @Test
     public void createNewVoting_ok() throws Exception {
-        var votingDTO = new VotingDTO();
-        votingDTO.setReason("Teste Reason");
+        var votingInputDTO = new VotingInputDTO();
+        votingInputDTO.setReason("Teste Reason");
 
         var returnVotingDTO = new VotingDTO();
-        returnVotingDTO.setReason(votingDTO.getReason());
+        returnVotingDTO.setReason(votingInputDTO.getReason());
         returnVotingDTO.setId(1L);
         returnVotingDTO.setStatus(VotingStatus.CREATED.getStatus());
 
         Gson gson = new Gson();
 
-        when(votingControlService.createVoting(votingDTO)).thenReturn(returnVotingDTO);
+        when(votingControlService.createVoting(votingInputDTO)).thenReturn(returnVotingDTO);
 
         mockMvc.perform(
                 post("/api/v1/voting")
-                        .content(gson.toJson(votingDTO))
+                        .content(gson.toJson(votingInputDTO))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
     }
 
     @Test
     public void createNewVoting_invalidReason() throws Exception {
-        var votingDTO = new VotingDTO();
-        votingDTO.setReason(null);
+        var votingInputDTO = new VotingInputDTO();
+        votingInputDTO.setReason(null);
 
         Gson gson = new Gson();
 
-        when(votingControlService.createVoting(votingDTO)).thenThrow(new IllegalArgumentException());
+        when(votingControlService.createVoting(votingInputDTO)).thenThrow(new IllegalArgumentException());
 
         mockMvc.perform(
                 post("/api/v1/voting")
-                        .content(gson.toJson(votingDTO))
+                        .content(gson.toJson(votingInputDTO))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }

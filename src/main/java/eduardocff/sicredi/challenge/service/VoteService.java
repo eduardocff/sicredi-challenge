@@ -5,9 +5,7 @@ import eduardocff.sicredi.challenge.domain.VotePK;
 import eduardocff.sicredi.challenge.enums.UserInfoStatus;
 import eduardocff.sicredi.challenge.enums.VoteStatus;
 import eduardocff.sicredi.challenge.exception.AssociateCanNotVoteException;
-import eduardocff.sicredi.challenge.model.v1.UserInfoStatusDTO;
-import eduardocff.sicredi.challenge.model.v1.VoteDTO;
-import eduardocff.sicredi.challenge.model.v1.VotingResultDTO;
+import eduardocff.sicredi.challenge.model.v1.*;
 import eduardocff.sicredi.challenge.repository.VoteRepository;
 import eduardocff.sicredi.challenge.utils.CastUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -23,16 +21,16 @@ public class VoteService {
     @Autowired
     private VoteRepository voteRepository;
 
-    public VoteDTO saveNewVote(Long id, VoteDTO voteDTO)  {
+    public VoteResultDTO saveNewVote(Long id, VoteDTO voteDTO)  {
         Vote vote = (Vote) CastUtil.copyFields(voteDTO, Vote.class);
         vote.setVotingId(id);
         vote.setVoteStatus(voteDTO.getVoteStatus());
         log.info(String.format("Associate %s voted %s in Voting %d", voteDTO.getAssociateId(), voteDTO.getVoteStatus(), id));
-        return (VoteDTO) CastUtil.copyFields(voteRepository.save(vote), VoteDTO.class);
+        return (VoteResultDTO) CastUtil.copyFields(voteRepository.save(vote), VoteResultDTO.class);
     }
 
     public boolean checkAlreadyVote(Long id, VoteDTO voteDTO) {
-        VotePK votePK = new VotePK(id, voteDTO.getAssociateId());
+        VotePK votePK = new VotePK(voteDTO.getAssociateId(), id);
         return voteRepository.findById(votePK).isPresent();
     }
 

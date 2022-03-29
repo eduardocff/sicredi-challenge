@@ -4,10 +4,7 @@ import eduardocff.sicredi.challenge.exception.AssociateAlreadyVotedException;
 import eduardocff.sicredi.challenge.exception.AssociateCanNotVoteException;
 import eduardocff.sicredi.challenge.exception.EntityNotFoundException;
 import eduardocff.sicredi.challenge.exception.VotingNotOpenException;
-import eduardocff.sicredi.challenge.model.v1.AssociateDTO;
-import eduardocff.sicredi.challenge.model.v1.UserInfoStatusDTO;
-import eduardocff.sicredi.challenge.model.v1.VoteDTO;
-import eduardocff.sicredi.challenge.model.v1.VotingDTO;
+import eduardocff.sicredi.challenge.model.v1.*;
 import eduardocff.sicredi.challenge.service.AssociateService;
 import eduardocff.sicredi.challenge.service.VoteService;
 import eduardocff.sicredi.challenge.service.VotingControlService;
@@ -45,6 +42,7 @@ public class VoteController {
     @ApiResponses({
             @ApiResponse(code = 201, message = "Created a new Vote successfully"),
             @ApiResponse(code = 412, message = "Voting not opened or associate cannot vote."),
+            @ApiResponse(code = 500, message = "Some internal error")
     })
     public ResponseEntity createNewVote(@PathVariable("votingId") Long votingId, @RequestBody VoteDTO voteDTO) {
 
@@ -63,7 +61,7 @@ public class VoteController {
 
             if(alreadyVote) throw new AssociateAlreadyVotedException(String.format("Associate %s already voted.", voteDTO.getAssociateId()));
 
-            VoteDTO votedDTO = voteService.saveNewVote(votingId, voteDTO);
+            VoteResultDTO votedDTO = voteService.saveNewVote(votingId, voteDTO);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(votedDTO);
 

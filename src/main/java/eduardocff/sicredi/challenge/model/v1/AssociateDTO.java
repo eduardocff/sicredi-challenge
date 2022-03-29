@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AssociateDTO {
-    private Long id;
     private Long cpf;
     private String name;
 }

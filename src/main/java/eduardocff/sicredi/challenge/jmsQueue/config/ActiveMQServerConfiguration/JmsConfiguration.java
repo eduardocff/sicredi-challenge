@@ -1,4 +1,4 @@
-package eduardocff.sicredi.challenge.rabbitMQ.config.ActiveMQServerConfiguration;
+package eduardocff.sicredi.challenge.jmsQueue.config.ActiveMQServerConfiguration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

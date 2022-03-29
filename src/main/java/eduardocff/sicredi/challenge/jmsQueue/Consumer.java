@@ -1,6 +1,6 @@
-package eduardocff.sicredi.challenge.rabbitMQ;
+package eduardocff.sicredi.challenge.jmsQueue;
 
-import eduardocff.sicredi.challenge.rabbitMQ.config.ActiveMQServerConfiguration.JmsConfiguration;
+import eduardocff.sicredi.challenge.jmsQueue.config.ActiveMQServerConfiguration.JmsConfiguration;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jms.annotation.JmsListener;

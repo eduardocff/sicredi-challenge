@@ -4,6 +4,7 @@ import eduardocff.sicredi.challenge.enums.VotingStatus;
 import eduardocff.sicredi.challenge.exception.EntityNotFoundException;
 import eduardocff.sicredi.challenge.exception.VotingAlreadyOpenedException;
 import eduardocff.sicredi.challenge.model.v1.VotingDTO;
+import eduardocff.sicredi.challenge.model.v1.VotingInputDTO;
 import eduardocff.sicredi.challenge.service.VotingControlService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -30,9 +31,9 @@ public class VotingController {
             @ApiResponse(code = 201, message = "Created a new Voting successfully"),
             @ApiResponse(code = 400, message = "Problem with the Reason entered"),
     })
-    public ResponseEntity createNewVoting(@RequestBody VotingDTO votingDTO) {
+    public ResponseEntity createNewVoting(@RequestBody VotingInputDTO votingInputDTO) {
         try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(votingService.createVoting(votingDTO));
+            return ResponseEntity.status(HttpStatus.CREATED).body(votingService.createVoting(votingInputDTO));
         } catch (IllegalArgumentException exception) {
             log.error("Voting reason entered is empty or in an improper format.");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -40,6 +41,13 @@ public class VotingController {
     }
 
     @PatchMapping(path = "/start/{id}")
+    @ApiOperation(value = "Start a voting",
+            notes = "This voting must exist and its status must be CREATED.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Started a new Voting successfully"),
+            @ApiResponse(code = 400, message = "Voting already opened"),
+            @ApiResponse(code = 404, message = "Voting not found by id provided"),
+    })
     public ResponseEntity startVoting(@PathVariable Long id) {
         try {
             VotingDTO voting = votingService.findVotingById(id);

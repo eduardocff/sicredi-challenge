@@ -4,6 +4,7 @@ import eduardocff.sicredi.challenge.domain.Voting;
 import eduardocff.sicredi.challenge.enums.VotingStatus;
 import eduardocff.sicredi.challenge.exception.VotingAlreadyOpenedException;
 import eduardocff.sicredi.challenge.model.v1.VotingDTO;
+import eduardocff.sicredi.challenge.model.v1.VotingInputDTO;
 import eduardocff.sicredi.challenge.repository.VotingRepository;
 import eduardocff.sicredi.challenge.utils.TestUtil;
 import org.junit.jupiter.api.Assertions;
@@ -34,8 +35,8 @@ public class VotingControlServiceTest {
 
     @Test
     public void createVoting_ok() {
-        var votingDTO = new VotingDTO();
-        votingDTO.setReason("Test Reason");
+        var votingInputDTO = new VotingInputDTO();
+        votingInputDTO.setReason("Test Reason");
 
         var createdVotingDTO = new Voting();
         createdVotingDTO.setReason("Test Reason");
@@ -44,18 +45,18 @@ public class VotingControlServiceTest {
 
         when(votingRepository.save(any(Voting.class))).thenReturn(createdVotingDTO);
 
-        var savedDTO = votingControlService.createVoting(votingDTO);
+        var savedDTO = votingControlService.createVoting(votingInputDTO);
 
         verify(votingRepository, times(1)).save(any(Voting.class));
-        Assertions.assertEquals(votingDTO.getReason(), savedDTO.getReason());
+        Assertions.assertEquals(votingInputDTO.getReason(), savedDTO.getReason());
     }
 
     @Test
     public void createVoting_WithoutReason_error() {
-        var votingDTO = new VotingDTO();
-        votingDTO.setReason(null);
+        var votingInputDTO = new VotingInputDTO();
+        votingInputDTO.setReason(null);
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> votingControlService.createVoting(votingDTO));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> votingControlService.createVoting(votingInputDTO));
     }
 
     @Test

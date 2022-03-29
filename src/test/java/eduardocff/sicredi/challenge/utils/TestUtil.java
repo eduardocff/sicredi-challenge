@@ -10,10 +10,6 @@ public class TestUtil {
         associateDTO.setCpf(97198042031L);
         associateDTO.setName("Eduardo");
 
-        if(id != null) {
-            associateDTO.setId(id);
-        }
-
         return associateDTO;
     }
 }

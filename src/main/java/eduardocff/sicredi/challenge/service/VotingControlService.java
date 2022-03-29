@@ -5,7 +5,8 @@ import eduardocff.sicredi.challenge.enums.VotingStatus;
 import eduardocff.sicredi.challenge.exception.EntityNotFoundException;
 import eduardocff.sicredi.challenge.exception.VotingAlreadyOpenedException;
 import eduardocff.sicredi.challenge.exception.VotingNotOpenException;
-import eduardocff.sicredi.challenge.rabbitMQ.Producer;
+import eduardocff.sicredi.challenge.model.v1.VotingInputDTO;
+import eduardocff.sicredi.challenge.jmsQueue.Producer;
 import eduardocff.sicredi.challenge.model.v1.VotingDTO;
 import eduardocff.sicredi.challenge.repository.VotingRepository;
 import eduardocff.sicredi.challenge.utils.CastUtil;
@@ -30,7 +31,7 @@ public class VotingControlService {
     @Autowired
     private VoteService voteService;
 
-    public VotingDTO createVoting(VotingDTO votingDTO) {
+    public VotingDTO createVoting(VotingInputDTO votingDTO) {
         checkVotingReason(votingDTO);
 
         Voting voting = (Voting) CastUtil.copyFields(votingDTO, Voting.class);
@@ -41,7 +42,7 @@ public class VotingControlService {
         return (VotingDTO) CastUtil.copyFields(createdVoting, VotingDTO.class);
     }
 
-    private void checkVotingReason(VotingDTO votingDTO) {
+    private void checkVotingReason(VotingInputDTO votingDTO) {
         if (votingDTO == null ||
             votingDTO.getReason() == null ||
             votingDTO.getReason().isEmpty()) {
